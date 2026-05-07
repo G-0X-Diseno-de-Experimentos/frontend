@@ -1,0 +1,75 @@
+<!-- src/app/configuration/components/supplier-configuration/supplier-configuration.component.html -->
+
+
+<div class="configuration-container">
+  <div *ngIf="isLoading" class="loading-indicator">
+    {{ 'COMMON.LOADING' | translate }}
+  </div>
+
+  <div *ngIf="!isLoading && configuration">
+    <h2>{{ 'CONFIGURATION.TITLE' | translate }}</h2>
+
+    <!-- Configuración de idioma -->
+    <div class="form-group">
+      <label>{{ 'CONFIGURATION.LANGUAGE' | translate }}</label>
+      <div class="language-options">
+        <div class="language-option" *ngFor="let lang of languageOptions">
+          <button
+            [class.active]="configuration.language === lang.value"
+            (click)="changeLanguage(lang.value)"
+            class="language-button">
+            {{ lang.label }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Theme Switcher - Se conecta automáticamente via ThemeService -->
+    <div class="form-group">
+      <label>{{ 'CONFIGURATION.VIEW_MODE' | translate }}</label>
+      <app-theme-switcher
+        variant="buttons"
+        size="medium"
+        [showLabels]="true"
+        [fullWidth]="true">
+      </app-theme-switcher>
+    </div>
+
+    <!-- Información de suscripción (solo lectura) -->
+    <div class="form-group">
+      <label>{{ 'CONFIGURATION.SUBSCRIPTION' | translate }}</label>
+      <div class="subscription-info">
+        <span class="plan-badge" [class]="'plan-' + configuration.subscriptionPlan">
+          {{ 'PLANS.' + (configuration.subscriptionPlan?.toUpperCase() || 'BASIC') | translate }}
+        </span>
+        <button class="manage-plan-btn" routerLink="/supplier/planes">
+          {{ 'CONFIGURATION.MANAGE_PLAN' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="button-container">
+      <app-button
+        [label]="'COMMON.SAVE' | translate"
+        variant="primary"
+        [loading]="isLoading"
+        (click)="saveConfiguration()">
+      </app-button>
+
+      <app-button
+        [label]="'COMMON.CANCEL' | translate"
+        variant="secondary"
+        [disabled]="isLoading"
+        (click)="cancel()">
+      </app-button>
+    </div>
+  </div>
+
+  <app-notification
+    *ngIf="notification.show"
+    [message]="notification.message"
+    [type]="notification.type"
+    (close)="notification.show = false">
+  </app-notification>
+</div>

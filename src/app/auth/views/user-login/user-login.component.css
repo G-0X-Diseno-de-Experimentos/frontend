@@ -1,0 +1,382 @@
+.auth-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Columna izquierda (contenido) */
+.content-col {
+  flex: 1;
+  max-width: 50%;
+  padding: 2rem;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Contenedor del formulario */
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 120px;
+  position: relative;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  border-radius: 8px;
+}
+
+.loading-content {
+  background: transparent;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  color: #333;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #866C52;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success toast minimalista */
+.success-toast {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2e7d32;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+  z-index: 30;
+  animation: slideInSuccess 0.3s ease-out forwards;
+}
+
+.success-toast mat-icon {
+  font-size: 18px !important;
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes slideInSuccess {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+form app-input {
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+/* Password container with toggle */
+.password-container {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  z-index: 5;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover {
+  color: #866C52;
+  background-color: rgba(134, 108, 82, 0.1);
+}
+
+.password-toggle mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Form options row */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  margin-top: -0.75rem;
+}
+
+/* Remember me checkbox */
+.remember-me {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.remember-me input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-radius: 3px;
+  margin-right: 8px;
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remember-me input:checked + .checkmark {
+  background-color: #866C52;
+  border-color: #866C52;
+}
+
+.remember-me input:checked + .checkmark::after {
+  content: '✓';
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.remember-text {
+  user-select: none;
+}
+
+.forgot-password a {
+  color: #866C52;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Enhanced error messages */
+.error-message {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Error types with direct colors */
+.error-message.credentials {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #d32f2f;
+}
+
+.error-message.blocked {
+  background-color: #fff3e0;
+  border: 1px solid #ffcc02;
+  color: #ef6c00;
+}
+
+.error-message.network,
+.error-message.timeout {
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  color: #1976d2;
+}
+
+/* Generic fallback */
+.error-message:not(.credentials):not(.blocked):not(.network):not(.timeout) {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #d32f2f;
+}
+
+.error-icon {
+  font-size: 18px !important;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.error-text {
+  flex: 1;
+}
+
+.retry-button {
+  background: none;
+  border: 1px solid currentColor;
+  color: inherit;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.retry-button:hover {
+  background-color: currentColor;
+  color: white;
+}
+
+.retry-button mat-icon {
+  font-size: 14px !important;
+  width: 14px;
+  height: 14px;
+}
+
+app-button {
+  margin-bottom: 1.5rem;
+}
+
+.register-link {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.register-link a {
+  color: #866C52;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Columna derecha (imagen) */
+.image-col {
+  flex: 1;
+  background-image: url('/assets/login-image.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Responsividad mejorada */
+@media (max-width: 992px) {
+  .content-col {
+    max-width: 100%;
+    flex: 100%;
+  }
+
+  .image-col {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .content-col {
+    padding: 1rem;
+  }
+
+  .form-container {
+    margin-top: 80px;
+    padding: 0 0.5rem;
+  }
+
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .error-message {
+    flex-wrap: wrap;
+  }
+
+  .retry-button {
+    margin-top: 0.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .success-toast {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .content-col {
+    padding: 0.75rem;
+  }
+
+  .form-container {
+    margin-top: 60px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 0.875rem;
+  }
+}

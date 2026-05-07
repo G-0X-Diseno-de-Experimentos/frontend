@@ -1,0 +1,248 @@
+<!-- supplier-profile-configuration.component.html - SINCRONIZADO CON BACKEND -->
+<div class="profile-container">
+  <!-- Header -->
+  <div class="profile-header">
+    <div class="header-content">
+      <app-button
+        [label]="'SUPPLIER_PROFILE.GO_BACK' | translate"
+        variant="secondary"
+        size="small"
+        (click)="goBack()">
+      </app-button>
+      <h1>{{ 'SUPPLIER_PROFILE.EDIT_TITLE' | translate }}</h1>
+      <p class="header-subtitle">{{ 'SUPPLIER_PROFILE.SUBTITLE' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>{{ 'SUPPLIER_PROFILE.LOADING' | translate }}</p>
+  </div>
+
+  <!-- Profile Form -->
+  <div *ngIf="!isLoading" class="profile-form-container">
+    <form [formGroup]="form" (ngSubmit)="saveProfile()" class="profile-form">
+
+      <!-- Logo/Image Section -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <span class="material-icons">business</span>
+          {{ 'SUPPLIER_PROFILE.COMPANY_LOGO' | translate }}
+        </h2>
+
+        <div class="logo-upload-section">
+          <div class="logo-preview">
+            <div class="logo-container" [class.has-image]="previewUrl" (click)="triggerFileInput()">
+              <img
+                *ngIf="previewUrl"
+                [src]="previewUrl"
+                [alt]="'SUPPLIER_PROFILE.COMPANY_LOGO' | translate"
+                class="logo-image">
+              <div *ngIf="!previewUrl" class="logo-placeholder">
+                <span class="material-icons">add_photo_alternate</span>
+                <span>{{ 'SUPPLIER_PROFILE.UPLOAD_LOGO' | translate }}</span>
+              </div>
+            </div>
+
+            <div class="logo-actions">
+              <input
+                type="file"
+                #fileInput
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                style="display: none;">
+
+              <app-button
+                *ngIf="previewUrl"
+                [label]="'SUPPLIER_PROFILE.REMOVE_IMAGE' | translate"
+                variant="secondary"
+                size="small"
+                (click)="removeImage()">
+              </app-button>
+            </div>
+          </div>
+
+          <div class="upload-instructions">
+            <p><strong>{{ 'SUPPLIER_PROFILE.RECOMMENDATIONS' | translate }}:</strong></p>
+            <ul>
+              <li>{{ 'SUPPLIER_PROFILE.FORMAT_INFO' | translate }}</li>
+              <li>{{ 'SUPPLIER_PROFILE.SIZE_INFO' | translate }}</li>
+              <li>{{ 'SUPPLIER_PROFILE.RESOLUTION_INFO' | translate }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Company Information - SOLO CAMPOS QUE EXISTEN EN BACKEND -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <span class="material-icons">domain</span>
+          {{ 'SUPPLIER_PROFILE.COMPANY_INFO' | translate }}
+        </h2>
+
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <app-input
+              type="text"
+              [label]="'SUPPLIER_PROFILE.COMPANY_NAME' | translate"
+              formControlName="companyName"
+              [placeholder]="'SUPPLIER_PROFILE.COMPANY_NAME_PLACEHOLDER' | translate"
+              [fullWidth]="true"
+              [required]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group">
+            <app-input
+              type="text"
+              [label]="'SUPPLIER_PROFILE.RUC' | translate"
+              formControlName="ruc"
+              [placeholder]="'SUPPLIER_PROFILE.RUC_PLACEHOLDER' | translate"
+              [fullWidth]="true"
+              [required]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group">
+            <app-input
+              type="select"
+              [label]="'SUPPLIER_PROFILE.SPECIALIZATION' | translate"
+              formControlName="specialization"
+              [placeholder]="'SUPPLIER_PROFILE.SELECT_SPECIALIZATION' | translate"
+              [options]="specializationOptions"
+              [fullWidth]="true"
+              [required]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group full-width">
+            <app-input
+              type="textarea"
+              [label]="'SUPPLIER_PROFILE.DESCRIPTION' | translate"
+              formControlName="description"
+              [placeholder]="'SUPPLIER_PROFILE.DESCRIPTION_PLACEHOLDER' | translate"
+              [fullWidth]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group full-width">
+            <app-input
+              type="textarea"
+              [label]="'SUPPLIER_PROFILE.CERTIFICATIONS' | translate"
+              formControlName="certifications"
+              [placeholder]="'SUPPLIER_PROFILE.CERTIFICATIONS_PLACEHOLDER' | translate"
+              [fullWidth]="true">
+            </app-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Information (Editable) -->
+      <div class="form-section">
+        <h2 class="section-title">
+          <span class="material-icons">person</span>
+          {{ 'SUPPLIER_PROFILE.PERSONAL_INFO' | translate }}
+        </h2>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <app-input
+              type="text"
+              [label]="'SUPPLIER_PROFILE.FULL_NAME' | translate"
+              formControlName="fullName"
+              [placeholder]="'SUPPLIER_PROFILE.FULL_NAME_PLACEHOLDER' | translate"
+              [fullWidth]="true"
+              [required]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group">
+            <app-input
+              type="email"
+              [label]="'SUPPLIER_PROFILE.EMAIL' | translate"
+              formControlName="email"
+              [placeholder]="'SUPPLIER_PROFILE.EMAIL_PLACEHOLDER' | translate"
+              [fullWidth]="true"
+              [required]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group">
+            <app-input
+              type="select"
+              [label]="'SUPPLIER_PROFILE.COUNTRY' | translate"
+              formControlName="country"
+              [placeholder]="'SUPPLIER_PROFILE.COUNTRY_PLACEHOLDER' | translate"
+              [options]="countries"
+              [fullWidth]="true"
+              [required]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group">
+            <app-input
+              type="select"
+              [label]="'SUPPLIER_PROFILE.CITY' | translate"
+              formControlName="city"
+              [placeholder]="loadingCities ? ('SUPPLIER_PROFILE.LOADING_CITIES' | translate) : ('SUPPLIER_PROFILE.CITY_PLACEHOLDER' | translate)"
+              [options]="cities"
+              [fullWidth]="true"
+              [required]="true"
+              [disabled]="loadingCities || !form.get('country')?.value">
+            </app-input>
+          </div>
+
+          <div class="form-group full-width">
+            <app-input
+              type="text"
+              [label]="'SUPPLIER_PROFILE.ADDRESS' | translate"
+              formControlName="address"
+              [placeholder]="'SUPPLIER_PROFILE.ADDRESS_PLACEHOLDER' | translate"
+              [fullWidth]="true">
+            </app-input>
+          </div>
+
+          <div class="form-group">
+            <app-input
+              type="tel"
+              [label]="'SUPPLIER_PROFILE.PHONE' | translate"
+              formControlName="phone"
+              [placeholder]="'SUPPLIER_PROFILE.PHONE_PLACEHOLDER' | translate"
+              [fullWidth]="true">
+            </app-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <app-button
+          type="button"
+          [label]="'SUPPLIER_PROFILE.CANCEL' | translate"
+          variant="secondary"
+          (click)="goBack()">
+        </app-button>
+
+        <app-button
+          type="button"
+          [label]="'SUPPLIER_PROFILE.UPDATE_PROFILE' | translate"
+          variant="primary"
+          [loading]="isSaving"
+          [disabled]="isSaving"
+          icon="save"
+          (click)="saveProfile()">
+        </app-button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Notification -->
+  <app-notification
+    [show]="notification.show"
+    [message]="notification.message"
+    [type]="notification.type"
+    [autoClose]="true"
+    (close)="closeNotification()">
+  </app-notification>
+</div>
